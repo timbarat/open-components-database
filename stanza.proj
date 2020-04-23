@@ -7,7 +7,7 @@ package rules defined-in "manufacturers/rules.stanza"
 package stackups defined-in "manufacturers/stackups.stanza"
 ;[/strip]
 package land-patterns defined-in "utils/land-patterns.stanza"
-package db-parts defined-in "utils/db-parts.stanza"
+package db-parts defined-in "utils/local-db.stanza"
 package design-vars defined-in "utils/design-vars.stanza"
 package symbol-utils defined-in "utils/symbol-utils.stanza"
 package pinspec defined-in "utils/pinspec.stanza"
