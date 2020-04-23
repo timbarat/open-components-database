@@ -11,7 +11,7 @@ defpackage generic-components:
   import pinspec
   import land-patterns
   import generator-utils
-  ; import db-parts
+  import db-parts
 ;[strip]
   import symbols
   import box-symbol
@@ -129,13 +129,13 @@ public defn gen-cap-cmp (cap:Double, max-v:Double) :
 
 ; 40 is default tolerance due to Yageo cap series 20% tolerance by default
 public defn gen-cap-cmp (cap:Double, pkg:String) :
-  ; capacitor(["capacitance" => cap "type" => "ceramic"])
-  gen-cap-cmp(cap, 0.2, 10.0, pkg)
+  capacitor(["capacitance" => cap "type" => "ceramic"])
+  ; gen-cap-cmp(cap, 0.2, 10.0, pkg)
 
 ; 40 is default tolerance due to Yageo cap series 20% tolerance by default
 public defn gen-cap-cmp (cap:Double) :
-  ; capacitor(["capacitance" => cap "type" => "ceramic"])
-  gen-cap-cmp(cap, 10.0)
+  capacitor(["capacitance" => cap "type" => "ceramic"])
+  ; gen-cap-cmp(cap, 10.0)
 
 ;Generic Ceramic surface mount capacitors
 public pcb-component gen-tant-cap-cmp (cap:Double, tol:Double, max-v:Double, pkg:String) :

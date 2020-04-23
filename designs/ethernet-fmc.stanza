@@ -53,8 +53,6 @@ val main-design = default-board(my-design, 4, 54.0, 69.0)
 lower-esir()
 
 run-user-pass(generate-power)
-run-user-pass(calculate-connected)
-run-user-pass(connect-floating-inputs-to-gnd)
 
 view(main-design)
 export-kicad("ethernet-fmc", [`place => true 

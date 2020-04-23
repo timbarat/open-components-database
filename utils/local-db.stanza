@@ -15,23 +15,13 @@ defpackage db-parts :
   import symbols
   import design-vars
 
-var *collection*:False|MongoCollection = false
-
-public defn open-mongo () :
-  close-mongo() when *collection* is MongoCollection
-  mongo-init()
-  val uri-string = "mongodb://localhost:27017"
-  val uri = MongoURI(uri-string)
-  val client = MongoClient(uri)
-  *collection* = get-collection(client, "config", "ceramic")
-    
-public defn close-mongo () :
-  mongo-cleanup()
-  *collection* = false
-
+mongo-init()
+val uri-string = "mongodb://localhost:27017"
+val uri = MongoURI(uri-string)
+val client = MongoClient(uri)
+val collection = get-collection(client, "config", "testCapacitors")
 
 defn find-cap (request:Tuple<KeyValue>) :
-  val collection = *collection* as MongoCollection
   val queryAggr = Vector<KeyValue>()
   for elm in request do :
     ; println(elm)
