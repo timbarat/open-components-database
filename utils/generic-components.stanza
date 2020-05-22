@@ -11,7 +11,7 @@ defpackage ocdb/generic-components:
   import ocdb/pinspec
   import ocdb/land-patterns
   import ocdb/generator-utils
-  ; import db-parts
+  import ocdb/db-parts
 ;[strip]
   import ocdb/symbols
   import ocdb/box-symbol
