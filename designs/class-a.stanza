@@ -1,19 +1,19 @@
 #use-added-syntax(esir)
-defpackage demo :
+defpackage ocdb/demo :
   import core
   import collections
   import math
   import esir
   import esir/utils
   import esir/gen
-  import tests/default-harness
+  import ocdb/tests/default-harness
   import esir/repl-lib
-  import checks
+  import ocdb/checks
 
-  import bundles
-  import land-patterns
-  import generator-utils
-  import generic-components
+  import ocdb/bundles
+  import ocdb/land-patterns
+  import ocdb/generator-utils
+  import ocdb/generic-components
 
 DESIGN-TEMPERATURE = 80.0
 
@@ -28,7 +28,7 @@ pcb-module class-a-amplifier (r-set:Double) :
 
   inst c : {gen-cap-cmp(0.1)}
 
-  inst bjt : {nxp/PMBT3904/component}
+  inst bjt : {ocdb/nxp/PMBT3904/component}
 
   net (vin.vdd r1.p[1] r3.p[1])
   net (bjt.c r3.p[2])

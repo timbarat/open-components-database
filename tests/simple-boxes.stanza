@@ -1,11 +1,11 @@
 #use-added-syntax(esir)
-defpackage tests/test-simple-boxes :
+defpackage ocdb/tests/test-simple-boxes :
   import core
   import collections
   import esir
   import esir/gen
-  import box-symbol
-  import tests/default-harness
+  import ocdb/box-symbol
+  import ocdb/tests/default-harness
 
 pcb-component box2 :
   pin a

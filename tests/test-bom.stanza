@@ -1,10 +1,10 @@
 #use-added-syntax(esir)
-defpackage tests/test-bom :
+defpackage ocdb/tests/test-bom :
   import core
   import collections
   import esir
-  import box-symbol
-  import tests/default-harness
+  import ocdb/box-symbol
+  import ocdb/tests/default-harness
 
 pcb-package mypackage :
   unique pcb-pad square :

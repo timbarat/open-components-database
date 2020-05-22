@@ -1,19 +1,19 @@
 #use-added-syntax(esir)
-defpackage analog-devices/LT3045:
+defpackage ocdb/analog-devices/LT3045:
   import core
   import collections
   import math
   import esir
   import esir/utils
   import esir/gen
-  import tests/default-harness
-  import pinspec
-  import land-patterns
-  import generic-components
-  import generator-utils
+  import ocdb/tests/default-harness
+  import ocdb/pinspec
+  import ocdb/land-patterns
+  import ocdb/generic-components
+  import ocdb/generator-utils
 ;[strip]
-  import symbols
-  import box-symbol
+  import ocdb/symbols
+  import ocdb/box-symbol
 ;[/strip]
 
 public unique pcb-component component :
@@ -40,7 +40,7 @@ public pcb-module module (v-out) :
   pin vout
   pin gnd
   pin en
-  inst ps : {analog-devices/LT3045/component}
+  inst ps : {ocdb/analog-devices/LT3045/component}
   val r-set = v-out / 100.0e-6
   val r-fb = res-strap(ps.set, gnd, r-set, 0.2, "0402")
   val c0 = cap-strap(ps.set, gnd, 10.0e-3)

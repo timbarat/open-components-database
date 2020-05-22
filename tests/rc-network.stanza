@@ -1,14 +1,14 @@
 #use-added-syntax(esir)
-defpackage rc-network :
+defpackage ocdb/rc-network :
   import core
   import collections
   import math
   import esir
   import esir/utils
   import esir/gen
-  import tests/default-harness
-  import box-symbol
-  import pinspec
+  import ocdb/tests/default-harness
+  import ocdb/box-symbol
+  import ocdb/pinspec
   import esir/repl-lib
 pcb-component battery : 
   pin pos 

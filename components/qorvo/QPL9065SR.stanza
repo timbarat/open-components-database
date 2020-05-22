@@ -1,20 +1,20 @@
 #use-added-syntax(esir)
-defpackage qorvo/QPL9065SR :
+defpackage ocdb/qorvo/QPL9065SR :
   import core
   import collections
   import math
   import esir
   import esir/utils
   import esir/gen
-  import tests/default-harness
-  import pinspec
-  import land-patterns
-  import generator-utils
-  import generic-components
-  import bundles
+  import ocdb/tests/default-harness
+  import ocdb/pinspec
+  import ocdb/land-patterns
+  import ocdb/generator-utils
+  import ocdb/generic-components
+  import ocdb/bundles
 ;[strip]
-  import symbols
-  import box-symbol
+  import ocdb/symbols
+  import ocdb/box-symbol
 ;[/strip]
 
 public unique pcb-component component :
@@ -59,7 +59,7 @@ public unique pcb-module module :
   pin vdd
   pin rfin
   pin rfout
-  inst lna : {qorvo/QPL9065SR/component}
+  inst lna : {ocdb/qorvo/QPL9065SR/component}
 
   inst l2 : {gen-ind-cmp(2.2e-3)}
   net (l2.p[1], lna.vdd1)

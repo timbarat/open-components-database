@@ -1,20 +1,20 @@
 #use-added-syntax(esir)
-defpackage microsemi/A2F200M3F-FGG256I:
+defpackage ocdb/microsemi/A2F200M3F-FGG256I:
   import core
   import collections
   import math
   import esir
   import esir/utils
   import esir/gen
-  import tests/default-harness
-  import pinspec
-  import land-patterns
-  import generator-utils
-  import generic-components
-  import bundles
+  import ocdb/tests/default-harness
+  import ocdb/pinspec
+  import ocdb/land-patterns
+  import ocdb/generator-utils
+  import ocdb/generic-components
+  import ocdb/bundles
 ;[strip]
-  import symbols
-  import box-symbol
+  import ocdb/symbols
+  import ocdb/box-symbol
 ;[/strip]
 
 public unique pcb-component component :
@@ -472,7 +472,7 @@ public unique pcb-module module :
   port src-3V3 : power
   port src-io : power
   port sys-i2c : i2c[2]
-  inst fpga : {microsemi/A2F200M3F-FGG256I/component}
+  inst fpga : {ocdb/microsemi/A2F200M3F-FGG256I/component}
   pin gnd 
   net (gnd src-1V5.gnd, src-3V3.gnd, src-io.gnd)
   for p in ports(fpga) do :

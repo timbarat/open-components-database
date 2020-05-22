@@ -1,20 +1,20 @@
 #use-added-syntax(esir)
-defpackage monolithic-power/MPM3630:
+defpackage ocdb/monolithic-power/MPM3630:
   import core
   import collections
   import math
   import esir
   import esir/utils
   import esir/gen
-  import tests/default-harness
-  import pinspec
-  import land-patterns
-  import generator-utils
-  import generic-components
-  import bundles
+  import ocdb/tests/default-harness
+  import ocdb/pinspec
+  import ocdb/land-patterns
+  import ocdb/generator-utils
+  import ocdb/generic-components
+  import ocdb/bundles
 ;[strip]
-  import symbols
-  import box-symbol
+  import ocdb/symbols
+  import ocdb/box-symbol
 ;[/strip]
 
 pcb-package mps-MPM3630-pkg :
@@ -69,15 +69,15 @@ public pcb-module module (v-out:Double) :
   pin vout
   pin gnd
   pin en
-  inst mpm : {monolithic-power/MPM3630/component}
+  inst mpm : {ocdb/monolithic-power/MPM3630/component}
 
   inst c-fb : {gen-cap-cmp(22.0e-6)}
 
-  inst c-in : {gen-cap-cmp(22.0, 20.0, 25.0,false,"0805")}
+  inst c-in : {gen-cap-cmp(22.0, 20.0, 25.0,"0805")}
 
-  inst c-out-0 : {gen-cap-cmp(22.0, 20.0, 25.0,false,"0805")}
+  inst c-out-0 : {gen-cap-cmp(22.0, 20.0, 25.0,"0805")}
   
-  inst c-out-1 : {gen-cap-cmp(22.0, 20.0, 25.0,false,"0805")}
+  inst c-out-1 : {gen-cap-cmp(22.0, 20.0, 25.0,"0805")}
 
   inst en-r : {gen-res-cmp(100000.0)}
 
@@ -94,7 +94,7 @@ public pcb-module module (v-out:Double) :
   val mpm-vref = 0.6 ; NOTE: this is different than MPM3620A
   properties(vout):
     voltage => [(v-out - 0.03) v-out (v-out + 0.03)]
-  passive-circuits/make-voltage-divider(vout, mpm.fb, agnd, [0.55 0.6 0.65], 1.0e-4)
+  ocdb/passive-circuits/make-voltage-divider(vout, mpm.fb, agnd, [0.55 0.6 0.65], 1.0e-4)
     
 ;[strip]
   package(mpm) at loc(0.0, 0.0) on Top

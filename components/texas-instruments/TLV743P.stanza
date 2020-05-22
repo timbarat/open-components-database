@@ -1,20 +1,20 @@
 #use-added-syntax(esir)
-defpackage texas-instruments/TLV743P:
+defpackage ocdb/texas-instruments/TLV743P:
   import core
   import collections
   import math
   import esir
   import esir/utils
   import esir/gen
-  import tests/default-harness
-  import pinspec
-  import land-patterns
-  import generator-utils
-  import generic-components
-  import bundles
+  import ocdb/tests/default-harness
+  import ocdb/pinspec
+  import ocdb/land-patterns
+  import ocdb/generator-utils
+  import ocdb/generic-components
+  import ocdb/bundles
 ;[strip]
-  import symbols
-  import box-symbol
+  import ocdb/symbols
+  import ocdb/box-symbol
 ;[/strip]
 
 public pcb-component component (v-out:Double) :
@@ -58,7 +58,7 @@ public pcb-module module (v-out:Double) :
   pin vout
   pin gnd
   pin en
-  inst ps : {texas-instruments/TLV743P/component(v-out)}
+  inst ps : {ocdb/texas-instruments/TLV743P/component(v-out)}
   cap-strap(gnd, ps.in, 1.0)
   cap-strap(gnd, ps.out, 1.0)
   net (vin, ps.in)

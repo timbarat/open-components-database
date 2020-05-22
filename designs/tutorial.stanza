@@ -1,14 +1,14 @@
 #use-added-syntax(esir)
-defpackage tutorial :
+defpackage ocdb/tutorial :
   import core
   import collections
   import math
   import esir
   import esir/utils
   import esir/gen
-  import tests/default-harness
+  import ocdb/tests/default-harness
   import esir/repl-lib
-  import generator-utils
+  import ocdb/generator-utils
   
 pcb-module my-design :
   inst r : example-resistor

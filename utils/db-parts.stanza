@@ -1,5 +1,5 @@
 #use-added-syntax(esir)
-defpackage db-parts :
+defpackage ocdb/db-parts :
   import core
   import collections
   import mongoc
@@ -8,12 +8,12 @@ defpackage db-parts :
   import esir
   import esir/utils
   import esir/gen
-  import tests/default-harness
+  import ocdb/tests/default-harness
   
-  import land-patterns
-  import generator-utils
-  import symbols
-  import design-vars
+  import ocdb/land-patterns
+  import ocdb/generator-utils
+  import ocdb/symbols
+  import ocdb/design-vars
 
 var *collection*:False|MongoCollection = false
 

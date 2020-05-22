@@ -1,5 +1,5 @@
 #use-added-syntax(esir)
-defpackage symbols :
+defpackage ocdb/symbols :
   import core
   import collections
   import math
@@ -7,7 +7,7 @@ defpackage symbols :
   import esir/gen
   import esir/utils
 
-  import symbol-utils
+  import ocdb/symbol-utils
 
 ; ====== Supply and Ground =====================================================
 

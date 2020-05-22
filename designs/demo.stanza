@@ -1,20 +1,20 @@
 #use-added-syntax(esir)
-defpackage demo :
+defpackage ocdb/demo :
   import core
   import collections
   import math
   import esir
   import esir/utils
   import esir/gen
-  import tests/default-harness
+  import ocdb/tests/default-harness
   import esir/repl-lib
   import jitpcb/visualizer
-  import checks
+  import ocdb/checks
 
-  import bundles
-  import land-patterns
-  import rules
-  import stackups
+  import ocdb/bundles
+  import ocdb/land-patterns
+  import ocdb/rules
+  import ocdb/stackups
   import demo-lib
   import env-params
 
@@ -29,9 +29,9 @@ pcb-module demo :
   ; Design goes here
 
 
-  ; inst ldo : {analog-devices/ADM7154(1.8)}
+  ; inst ldo : {ocdb/analog-devices/ADM7154(1.8)}
 
-  inst fmc : {samtec/ASP-134488-01}
+  inst fmc : {ocdb/samtec/ASP-134488-01}
   net gnd (fmc.gnd)
 
   properties(fmc.v12p0):

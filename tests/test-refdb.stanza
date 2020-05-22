@@ -1,10 +1,10 @@
 #use-added-syntax(esir)
-defpackage tests/test-refdb :
+defpackage ocdb/tests/test-refdb :
   import core
   import collections
   import esir
   import refdb
-  import tests/default-harness
+  import ocdb/tests/default-harness
 
 ;============================================================
 ;================== Processor Definitions ===================

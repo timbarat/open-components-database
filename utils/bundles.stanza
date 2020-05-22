@@ -1,12 +1,12 @@
 #use-added-syntax(esir)
-defpackage bundles:
+defpackage ocdb/bundles:
   import core
   import collections
   import math
   import esir
   import esir/utils
   import esir/gen
-  import tests/default-harness
+  import ocdb/tests/default-harness
 
 defn diff-pair-pins () :
   inside pcb-bundle:

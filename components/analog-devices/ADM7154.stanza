@@ -1,21 +1,21 @@
 #use-added-syntax(esir)
-defpackage analog-devices/ADM7154:
+defpackage ocdb/analog-devices/ADM7154:
   import core
   import collections
   import math
   import esir
   import esir/utils
   import esir/gen
-  import tests/default-harness
-  import pinspec
-  import land-patterns
+  import ocdb/tests/default-harness
+  import ocdb/pinspec
+  import ocdb/land-patterns
 
-  import generator-utils
-  import generic-components
+  import ocdb/generator-utils
+  import ocdb/generic-components
 
 ;[strip]
-  import symbols
-  import box-symbol
+  import ocdb/symbols
+  import ocdb/box-symbol
 ;[/strip]
 
 public pcb-component component (v-out:Double) :
@@ -54,7 +54,7 @@ public pcb-module module (v-out) :
   pin vout
   pin gnd
   pin en
-  inst ps : {analog-devices/ADM7154/component(v-out)}
+  inst ps : {ocdb/analog-devices/ADM7154/component(v-out)}
   cap-strap(ps.vin, gnd, 10.0e-6)
   cap-strap(ps.vout, gnd, 10.0e-6)
   cap-strap(ps.vreg, gnd, 10.0e-6)

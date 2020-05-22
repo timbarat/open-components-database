@@ -1,20 +1,20 @@
 #use-added-syntax(esir)
-defpackage abracon/ABM12-32-B2X-T3:
+defpackage ocdb/abracon/ABM12-32-B2X-T3:
   import core
   import collections
   import math
   import esir
   import esir/utils
   import esir/gen
-  import tests/default-harness
+  import ocdb/tests/default-harness
 
-  import land-patterns
-  import symbols
-  import box-symbol
-  import pinspec
-  import bundles
-  import generator-utils
-  import generic-components
+  import ocdb/land-patterns
+  import ocdb/symbols
+  import ocdb/box-symbol
+  import ocdb/pinspec
+  import ocdb/bundles
+  import ocdb/generator-utils
+  import ocdb/generic-components
 
 public unique pcb-component component :
   manufacturer = "Abracon"
@@ -37,7 +37,7 @@ pcb-package XTAL-TSX-3225 :
 public unique pcb-module module :
   port xc : pin[2]
   pin gnd
-  inst xtal : {abracon/ABM12-32-B2X-T3/component}
+  inst xtal : {ocdb/abracon/ABM12-32-B2X-T3/component}
   for i in 1 through 2 do :
     net (gnd xtal.g[i])
     cap-strap(gnd, xtal.p[i], 6.0e-12)

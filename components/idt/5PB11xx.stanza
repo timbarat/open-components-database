@@ -1,20 +1,20 @@
 #use-added-syntax(esir)
-defpackage idt/5PB11xx:
+defpackage ocdb/idt/5PB11xx:
   import core
   import collections
   import math
   import esir
   import esir/utils
   import esir/gen
-  import tests/default-harness
-  import pinspec
-  import land-patterns
-  import generator-utils
-  import generic-components
-  import bundles
+  import ocdb/tests/default-harness
+  import ocdb/pinspec
+  import ocdb/land-patterns
+  import ocdb/generator-utils
+  import ocdb/generic-components
+  import ocdb/bundles
 ;[strip]
-  import symbols
-  import box-symbol
+  import ocdb/symbols
+  import ocdb/box-symbol
 ;[/strip]
 
 public pcb-component component (n:Int) :
@@ -79,7 +79,7 @@ public pcb-module module (n:Int) :
   port src : power
   pin clkin
   port clkout : pin[n]
-  inst buffer : {idt-5PB11xx-cmp(n)}
+  inst buffer : {ocdb/idt-5PB11xx-cmp(n)}
   default-bypass(buffer)
   net (buffer.clkin, clkin)
   net (buffer.clkout, clkout)
