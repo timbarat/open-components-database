@@ -44,17 +44,17 @@ pcb-module my-design :
   connect phy (rgmii[1], eth-1)
 
   ; Geometry constraints
-  package(fmc) at loc(-16.5, 0.0, 90.0) on Top
-  package(ethernet-jack[0]) at loc(13.0, 22.0, 270.0) on Top
-  package(ethernet-jack[1]) at loc(13.0, -22.0, 270.0) on Top
+  package(fmc) at loc(-18.5, 0.0, 90.0) on Top
+  package(ethernet-jack[0]) at loc(15.0, 22.0, 270.0) on Top
+  package(ethernet-jack[1]) at loc(15.0, -22.0, 270.0) on Top
 
-val main-design = default-board(my-design, 4, 54.0, 69.0)
+val main-design = default-board(my-design, 4, 60.0, 69.0)
 
 lower-esir()
 
 run-user-pass(generate-power)
 
-; view(main-design)
+view(main-design)
 export-kicad("ethernet-fmc", [`place => true 
                           `gen-board => true 
                           `gen-schematic => true 

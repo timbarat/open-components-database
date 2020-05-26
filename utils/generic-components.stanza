@@ -129,12 +129,12 @@ public defn gen-cap-cmp (cap:Double, max-v:Double) :
 
 ; 40 is default tolerance due to Yageo cap series 20% tolerance by default
 public defn gen-cap-cmp (cap:Double, pkg:String) :
-  capacitor(["capacitance" => cap "type" => "ceramic"])
+  capacitor(["capacitance" => closest-std-val(cap,20.0), "type" => "ceramic"])
   ; gen-cap-cmp(cap, 0.2, 10.0, pkg)
 
 ; 40 is default tolerance due to Yageo cap series 20% tolerance by default
 public defn gen-cap-cmp (cap:Double) :
-  capacitor(["capacitance" => cap "type" => "ceramic"])
+  capacitor(["capacitance" => closest-std-val(cap,20.0), "type" => "ceramic"])
   ; gen-cap-cmp(cap, 10.0)
 
 ;Generic Ceramic surface mount capacitors
