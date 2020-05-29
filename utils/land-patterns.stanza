@@ -378,6 +378,75 @@ public defn make-bga-pkg (pitch:Double, pad-diam:Double, n-pads:[Int Int], court
 public pcb-package bga-pkg (pitch:Double, pad-diam:Double, n-pads:[Int Int], courtyard:[Double Double], omit-pads:Tuple<Ref>) :
   make-bga-pkg(pitch, pad-diam, n-pads, courtyard, omit-pads)
 
+; Generator function for JST through hole connector packages
+; n          - number of circuits
+; pin-pitch  - distance between pins
+; pin-diam   - diameter of through hole for pins
+; pin-offset - distance from center to pin array on y-axis
+; c-dim      - courtyard dimensions
+public defn make-jst-tht-connector-pkg (n:Int, pin-pitch:Double, 
+                                        pin-diam:Double, pin-offset:Double, 
+                                        c-dim:Rectangle) :
+  inside pcb-package :
+    ;Define a list of n floating pin locations, spaced by pin-pitch
+    val pin-row = to-list(row-locs(W, n, pin-pitch))
+    ;Set x-coordinate of first pin in row
+    val x0 = (to-double(n - 1) * pin-pitch) / -2.0
+    for (i in 0 to n, l in pin-row) do :
+      pad p[i + 1] : {pth-pad(pin-diam / 2.0)} at loc(x0, pin-offset) * l 
+    layer(Courtyard(Top)) = Rectangle(width(c-dim), height(c-dim))
+    layer(Silkscreen("f-silk", Top)) = LineRectangle(width(c-dim), 
+                                                     height(c-dim))
+    ref-label()
+
+; Generator function for JST through hole connector packages
+; n          - number of circuits
+; pin-pitch  - distance between pins
+; pin-diam   - diameter of through hole for pins
+; pin-offset - distance from center to pin array on y-axis
+; c-dim      - courtyard dimensions 
+; boss-diam  - diameter of boss pin
+; boss-loc   - location of boss pin
+public defn make-jst-tht-connector-pkg (n:Int, pin-pitch:Double, 
+                                        pin-diam:Double, pin-offset:Double, 
+                                        c-dim:Rectangle, boss-diam:Double, 
+                                        boss-loc:Pose) :
+  inside pcb-package :
+    val post = Circle(boss-diam / 2.0)
+    layer(Cutout()) = boss-loc * post
+  make-jst-tht-connector-pkg(n, pin-pitch, pin-diam, pin-offset, c-dim)
+
+; Generator function for JST surface mount connector packages
+; n          - number of circuits
+; pin-pitch  - distance between pins
+; pin-dim    - dimensions of circuit pads
+; pin-offset - distance from center to pad array on y-axis
+; brace-dim  - dimensions of brace pads
+; brace-loc  - location of right brace pad
+; c-dim      - dimensions of package
+public defn make-jst-smd-connector-pkg (n:Int, pin-pitch:Double, 
+                                        pin-dim:Rectangle, pin-offset:Double, 
+                                        brace-dim:Rectangle, brace-loc:Pose
+                                        c-dim:Rectangle):
+  inside pcb-package :
+    ;Set the dimensions of the brace pad
+    val brace-pad = smd-pad(width(brace-dim), height(brace-dim))
+    ;Set the dimensions of the pin pad
+    val pin-pad = smd-pad(width(pin-dim), height(pin-dim))
+    ;Define a list of n floating pin locations, spaced by pin-pitch
+    val pin-row = to-list(row-locs(W, n, pin-pitch))
+    ;Set x-coordinate of the first pin in row
+    val x0 = (to-double(n - 1) * pin-pitch) / -2.0
+
+    for (i in 0 to n, l in pin-row) do :
+      pad p[i + 1] : {pin-pad} at loc(x0, pin-offset) * l
+    pad p[n + 1] : {brace-pad} at brace-loc
+    pad p[n + 2] : {brace-pad} at loc(0.0, 0.0, FlipX) * brace-loc
+    layer(Courtyard(Top)) = c-dim 
+    layer(Silkscreen("f-silk", Top)) = LineRectangle(width(c-dim), 
+                                                     height(c-dim))
+    ref-label()
+
 ; Generic package instantiations
 ; Passives
 

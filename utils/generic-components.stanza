@@ -343,6 +343,19 @@ public defn pin-header (n-pin: Int, pin-pitch:Double) :
 public defn pin-header (n-pin: Int, n-row: Int, pin-pitch:Double) :
   pin-header(n-pin, n-row, pin-pitch, pin-pitch)
 
+; Generator function for JST connector components
+; n - number of circuits
+; direction - direction of pins on symbol
+; pkg - reference to package associated with component
+public defn make-jst-connector-cmp (n:Int, direction:Dir, pkg:Ref) :
+  inside pcb-component :
+    val ps = PinSpec $ #TABLE :
+      [Ref  | Int ... | Dir ]
+      for i in 1 through n do :
+        [p[i] | i | direction]
+    reference-prefix = "J"
+    gen-symbol-map(ps, pkg) 
+
 public defn sma-connector (sig:Ref, launch:String) :
   inside pcb-module :
     if launch == "end-launch":

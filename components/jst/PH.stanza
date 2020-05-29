@@ -1,0 +1,104 @@
+#use-added-syntax(esir)
+defpackage ocdb/jst/PH :
+  import core
+  import collections
+  import math
+  import esir
+  import esir/utils
+  import esir/gen
+  import ocdb/tests/default-harness
+  import ocdb/pinspec
+  import ocdb/land-patterns
+  import ocdb/generator-utils
+  import ocdb/generic-components
+  import ocdb/bundles
+  import jitpcb/visualizer
+  import ocdb/symbols
+  import ocdb/box-symbol
+
+; Package generator for through hole JST connectors in PH Series  
+; n - [dependent on component] - number of circuits. 
+; direction - ["top", "side"] - direction of connector entry 
+public pcb-package tht-jstph-pkg (n:Int, direction:String) :
+  if not contains?(["top", "side"], direction) :
+    fatal("Entry direction not supported by part")
+   
+  ;Set courtyard height and y-offset for pins 
+  val [c-h, pin-offset] = switch(direction) :
+    "top" : [4.5, -0.55]
+    "side" : [7.6, -2.45]
+
+  ;Set courtyard width
+  val c-w = 4.0 + (to-double(n - 1) * 2.0)  
+  val c-dim = Rectangle(c-w, c-h)
+
+  make-jst-tht-connector-pkg(n, 2.0, 0.7, pin-offset, c-dim) 
+
+; Package generator for surface mount JST connectors in XH Series
+; n - [dependant on component] - number of circuits
+; direction - ["top", "side"]  - direction of connector entry
+public pcb-package smd-jstph-pkg (n:Int, direction:String) :
+  if not contains?(["top", "side"], direction) :
+    fatal("Entry direction not supported by part")
+  ;Set component dimensions
+  val [pin-dim, pin-offset, brace-dim, brace-loc, c-dim] = switch(direction) :
+    "top" : 
+            if not contains?(2 through 16, n) :
+              fatal("Number of circuits not supported by part")
+            [Rectangle(1.0, 5.5), 
+             -0.5, 
+             Rectangle(1.6, 3.0), 
+             loc(2.4 + to-double(n - 1), 1.75), 
+             Rectangle(6.4 + (to-double(n - 1) * 2.0), 6.5)]
+    "side" :
+            if not contains?(2 through 15, n) :
+              fatal("Number of circuits not supported by part")
+            [Rectangle(1.0, 3.5),
+             -2.85, 
+             Rectangle(1.5, 3.6),
+             loc(2.35 + to-double(n - 1), 2.8),
+             Rectangle(6.2 + (to-double(n - 1) * 2.0), 9.2)]
+  make-jst-smd-connector-pkg(n, 2.0, pin-dim, pin-offset, brace-dim, brace-loc, 
+                         c-dim)
+
+; Component generator for through hole JST connectors in PH Series 
+; type - ["tht", "smd"] - through hole or surface mount
+; direction - ["top, "side"] - entry direction of connector
+; n - number of circuits
+public pcb-component component (type:String, direction:String, n:Int) :
+  if not contains?(2 through 16, n) :
+    fatal("Number of circuits not supported by part")
+  if not contains?(["tht", "smd"], type) :
+    fatal("Mounting type not supported by part")
+  if not contains?(["top", "side"], direction) :
+    fatal("Entry direction not supported by part")
+
+  manufacturer = "JST"
+  switch(type) :
+    "tht" :
+      ;Set name and mpn
+      val id = switch(direction) :
+        "top" : to-string("B%_B-PH-K-S" % [n])
+        "side" : to-string("S%_B-PH-K-S" % [n])
+      name = id
+      mpn = id
+
+      ;Set package
+      val pkg = switch(direction) :
+        "top" : tht-jstph-pkg(n, "top")
+        "side" : tht-jstph-pkg(n, "side")
+      make-jst-connector-cmp(n, Left, pkg)
+
+    "smd" :
+      ;Set name and mpn
+      val id = switch(direction) :
+        "top" : to-string("B%_B-PH-SM4-TB" % [n])
+        "side" : to-string("S%_B-PH-SM4-TB" % [n])
+      name = id
+      mpn = id
+
+      ;Set package
+      val pkg = switch(direction) :
+        "top" : smd-jstph-pkg(n, "top")
+        "side" : smd-jstph-pkg(n, "side")
+      make-jst-connector-cmp(n, Left, pkg)

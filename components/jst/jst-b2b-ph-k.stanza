@@ -1,0 +1,37 @@
+#use-added-syntax(esir)
+defpackage ocdb/jst/jst-b2b-ph-k :
+  import core
+  import collections
+  import math
+  import esir
+  import esir/utils
+  import esir/gen
+  import ocdb/tests/default-harness
+  import ocdb/pinspec
+  import ocdb/land-patterns
+  import ocdb/generator-utils
+  import ocdb/generic-components
+  import ocdb/bundles
+  import ocdb/symbols
+  import ocdb/box-symbol
+  import jitpcb/visualizer
+
+pcb-package b2b-ph-k-s-pkg :
+  pad p[1] : {pth-pad(0.7 / 2.0)} at loc(-1.0, -0.55)
+  pad p[2] : {pth-pad(0.7 / 2.0)} at loc(1.0, -0.55)
+  layer(Courtyard(Top)) = Rectangle(6.0, 4.5)
+  layer(Silkscreen("f-silk", Top)) = LineRectangle(6.0, 4.5)
+
+public unique pcb-component component :
+  name = "B2B-PH-K-S"
+  mpn = "B2B-PH-K-S"
+  manufacturer = "JST"
+  val ps = PinSpec $ #TABLE :
+    [Ref  | Int ... | Dir  ]
+    [p[0] | 0       | Left ]
+    [p[1] | 1       | Left ]
+  reference-prefix = "J"
+  gen-symbol-map(ps, b2b-ph-k-s-pkg)
+
+
+view(ocdb/jst/jst-b2b-ph-k/component)

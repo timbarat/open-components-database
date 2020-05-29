@@ -1,0 +1,38 @@
+#use-added-syntax(esir)
+defpackage ocdb/jst/jst-b2b-xh-am :
+  import core
+  import collections
+  import math
+  import esir
+  import esir/utils
+  import esir/gen
+  import ocdb/tests/default-harness
+  import ocdb/pinspec
+  import ocdb/land-patterns
+  import ocdb/generator-utils
+  import ocdb/generic-components
+  import ocdb/bundles
+  import ocdb/symbols
+  import ocdb/box-symbol
+  import jitpcb/visualizer
+
+pcb-package b2b-xh-am-pkg :
+  val post = Circle(1.1 / 2.0)
+  layer(Cutout()) = loc(-2.85, 1.475) * post
+  pad p[1] : {pth-pad(1.0 / 2.0)} at loc(-1.25, -0.525)
+  pad p[2] : {pth-pad(1.0 / 2.0)} at loc(1.25, -0.525)
+  layer(Courtyard(Top)) = Rectangle(7.5, 5.75)
+  layer(Silkscreen("f-silk", Top)) = LineRectangle(7.5, 5.75)
+
+public unique pcb-component component :
+  name = "B2B-XH-AM"
+  mpn = "B2B-XH-AM"
+  manufacturer = "JST"
+  val ps = PinSpec $ #TABLE :
+    [Ref  | Int ... | Dir  ]
+    [p[0] | 0       | Left ]
+    [p[1] | 1       | Left ]
+  reference-prefix = "J"
+  gen-symbol-map(ps, b2b-xh-am-pkg)
+
+view(ocdb/jst/jst-b2b-xh-am/component)

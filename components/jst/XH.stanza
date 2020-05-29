@@ -1,0 +1,126 @@
+#use-added-syntax(esir)
+defpackage ocdb/jst/XH :
+  import core
+  import collections
+  import math
+  import esir
+  import esir/utils
+  import esir/gen
+  import ocdb/tests/default-harness
+  import ocdb/pinspec
+  import ocdb/land-patterns
+  import ocdb/generator-utils
+  import ocdb/generic-components
+  import ocdb/bundles
+  import jitpcb/visualizer
+  import ocdb/symbols
+  import ocdb/box-symbol
+
+; Package generator for through hole JST connectors in XH Series  
+; n - [dependent on component] - number of circuits. 
+; direction - ["top", "side"]  - direction of connector entry 
+; boss:                        - include boss pin?
+public pcb-package tht-jstxh-pkg (n:Int, direction:String, 
+                                  boss?:True|False) :
+  if not contains?(["top", "side"], direction) :
+    fatal("Entry direction not supported by part")
+  
+  ;Set diameter of pins
+  val pin-diam = switch([direction, n]) :
+    [2, "top"] : 1.0
+    else : 0.9
+
+  ; Set diameter of boss pin x and y coordinates of boss pin,
+  ; courtyard height, pin-offset for pins
+  val [boss-diam, x-boss, y-boss, c-h, pin-offset] =
+    if direction == "top" :
+      if boss? :
+        if n == 1 :
+          [1.7, 0.0, 2.975, 7.65, -1.375]
+        else :
+          val x-boss = ((to-double(n - 1) * 2.5) / -2.0) - 1.6
+          [1.1, x-boss, 1.475, 5.75, -0.525]
+      else :
+        [0.0, 0.0, 0.0, 5.75, -0.525]
+    else if direction == "side" :
+      [0.0, 0.0, 0.0, 11.5, -3.45]
+    else :
+      [0.0, 0.0, 0.0, 0.0, 0.0]
+  
+  ;Set courtyard width
+  val c-w = 5.0 + (to-double(n - 1) * 2.5)
+  ;Set courtyard dimensions
+  val c-dim = Rectangle(c-w, c-h)
+
+  if boss? :
+    make-jst-tht-connector-pkg(n, 2.5, pin-diam, pin-offset, c-dim, 
+                               boss-diam, loc(x-boss, y-boss)) 
+  else :
+    make-jst-tht-connector-pkg(n, 2.5, pin-diam, pin-offset, c-dim)
+
+; Package generator for surface mount JST connectors in XH Series
+; n - [dependant on component] - number of circuits
+public pcb-package smd-jstxh-pkg (n:Int) :
+  ;Set component dimensions
+  val c-dim = Rectangle(8.2 + (to-double(n - 1) * 2.5), 11.0)
+  ;Set pin pad dimensions
+  val pin-dim = Rectangle(1.3, 4.5)
+  ;Set brace pad dimensions
+  val brace-dim = Rectangle(1.8, 3.9)
+  ;Set brace pad location
+  val brace-loc = loc(3.2 + ((to-double(n - 1) * 2.5) / 2.0), -3.55)
+  make-jst-smd-connector-pkg(n, 2.5, pin-dim, 3.25, brace-dim, brace-loc, 
+                             c-dim)
+  
+; Component generator for through hole JST connectors in XH Series 
+; type - ["tht", "smd"]      - through hole or surface mount
+; direction - ["top, "side"] - entry direction of connector
+; boss                       - include boss pin
+; n                          - number of circuits
+public pcb-component component (type:String, direction:String, 
+                                boss?:True|False, n:Int) :
+  if not contains?(["tht", "smd"], type) :
+    fatal("Mounting type not supported by part")
+  if not contains?(["top", "side"], direction) :
+    fatal("Entry direction not supported by part")
+  
+  manufacturer = "JST"
+  switch(type) :
+    "tht" :
+      ;Set name and mpn
+      val id = switch([direction, boss?]) :
+        ["top", true] : 
+                        if not contains?([1,2,3,4,5,6,7,8,9,10,12], n) :
+                          fatal("Number of circuits not supported by part")
+                        to-string("B%_B-XH-AM" % [n])
+        ["top", false] : 
+                        if not contains?([2,3,4,5,6,7,8,9,10,
+                                          11,12,13,14,15,16,20], n) :
+                          fatal("Number of circuits not supported by part")
+                        to-string("B%_B-XH-A" % [n])
+        ["side", false] :
+                        if not contains?(2 through 16, n) :
+                          fatal("Number of circuits not supported by part")
+                        to-string("S%_B-XH-A" % [n]) 
+      name = id
+      mpn = id
+
+      ;Set package
+      val pkg = switch([direction, boss?]) :
+        ["top", true] : tht-jstxh-pkg(n, "top", true)
+        ["top", false] : tht-jstxh-pkg(n, "top", false)
+        ["side", false] : tht-jstxh-pkg(n, "side", false)
+      make-jst-connector-cmp(n, Left, pkg)  
+
+    "smd" :
+      if not contains?([3,4,6], n) :
+        fatal("Number of circuits not supported by part")
+      if not (direction == "side") :
+        fatal("Entry direction not supported by part")
+      if boss? :
+        fatal("Part doesn't have a boss pin")
+      val id = to-string("S%_B-XH-SM4-TB" % [n])
+      name = id
+      mpn = id
+      val pkg = smd-jstxh-pkg(n)
+      make-jst-connector-cmp(n, Left, pkg)
